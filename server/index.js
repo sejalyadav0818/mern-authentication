@@ -9,7 +9,7 @@ const RegisterModel = require('./models/Register');
 const app = express();
 app.use(cors(
     {
-        origin : ["http://127.0.0.1"],
+        origin : ["http://localhost/5173"],
         methods : ["GET" , "POST"],
         credentials : true
 
@@ -45,6 +45,9 @@ app.post('/login', (req, res) => {
                 bcrypt.compare(password , user.password ,(err , res)=>{
                     if(res){
                         const token = jwt.sign({email : user.email, role : user.role}, "iamsky" ,{expiresIn : '1d'})
+                        res.cookie("token" , token)
+                        return res.json("success") 
+                    
                     }else
                     {
                         return res.json("password is incorrect") 

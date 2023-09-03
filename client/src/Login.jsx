@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-//code
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios  from 'axios';
 import { Link , useNavigate} from 'react-router-dom';
@@ -15,9 +14,20 @@ function Login() {
   const handleSubmit = (e) =>{
     e.preventDefault();
     axios.post('http://localhost:3001/login',{ email , password})
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
-    console.log( email , password);
+    .then(res =>
+      {
+        if(res.data.this.Status === "Success"){
+          if(res.data.role === "admin")
+          {
+            navigate('/darshboard')
+          }
+          else
+          {
+            navigate('/home')
+          }
+        }
+      }
+    ).catch(err => console.log(err))
   }
   return (
     <div className="container mt-5">
