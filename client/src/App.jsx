@@ -4,6 +4,8 @@ import Signup from './Signup';
 import Login from './Login';
 import DarshBorad from './DarshBorad';
 import Home from './Home';
+import Forgotpassword from './Forgotpassword';
+
 
 function App() {
   
@@ -14,6 +16,8 @@ return (
       <Route path='/register' element={<Signup/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/darshboard' element={<DarshBorad/>}></Route>
+      <Route path='/forgot-password' element={<Forgotpassword/>}></Route>
+     
     </Routes>
     </BrowserRouter>
   )

@@ -3,23 +3,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function Forgotpassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/login", { email, password })
+      .post("http://localhost:3001/forgot-password", { email })
       .then((res) => {
         if (res.data.Status === "Success") {
-          if (res.data.role === "admin") {
-            navigate("/darshboard");
-          } else {
-            navigate("/");
-          }
+            navigate("/login");
+         
         }
       })
       .catch((err) => console.log(err));
@@ -30,7 +26,7 @@ function Login() {
         <div className="col-md-6">
           <div className="card">
             <div className="card-body">
-              <h2 className="text-center mb-4">Login Form</h2>
+              <h2 className="text-center mb-4">Forget-Password</h2>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="email">Email address</label>
@@ -44,37 +40,10 @@ function Login() {
                     }}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Password"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  />
-                  
-                </div>
-                <Link
-                to="/forgot-password"
-                className="btn btn-defult border w-100 bg-light"
-              >
-          
-              <p>Forgot Password</p>
-           </Link>
                 <button type="submit" className="btn btn-primary">
-                  Login
+            send
                 </button>
               </form>
-             
-              <Link
-                to="/register"
-                className="btn btn-defult border w-100 bg-light"
-              >
-                Sign-up
-              </Link>
             </div>
           </div>
         </div>
@@ -83,4 +52,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Forgotpassword;

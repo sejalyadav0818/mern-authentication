@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookiePareser = require("cookie-parser");
 const RegisterModel = require("./models/Register");
+const nodemailer = require('nodemailer')
 const app = express();
 app.use(
   cors({
@@ -82,6 +83,40 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
+app.post('/forgot-password',(req,res)=>{
+  const {email}= req.body;
+  RegisterModel.findOne({email:email})
+  .then(user=>{
+    if(!user)
+    {
+      return res.send({Status :"User not  existed"})
+    }
+    const token = jwt.sign({id:user._id},"iamsky",{expiresIn:"1d"})
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'youremail@gmail.com',
+        pass: 'yourpassword'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'youremail@gmail.com',
+      to: 'myfriend@yahoo.com',
+      subject: 'Reset Password',
+      text: `http://localhost:5173/reset-password/${user._id}/${token}`
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+      return res.send({Status : "Success"})
+      }
+    });
+  })
+})
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001");
